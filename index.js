@@ -7,8 +7,8 @@ var schedule = require('node-schedule');
 var setrule = new schedule.RecurrenceRule();
 var unsetRule = new schedule.RecurrenceRule();
 var currentGuild;
-setrule.hour = 1;
-unsetRule.hour = 8;
+setrule.hour = 5;
+unsetRule.hour = 12;
 var canBecome = true;
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
