@@ -59,6 +59,7 @@ client.on('message', msg => {
   if(canBecome)
   {
       msg.member.addRole(msg.member.guild.roles.find('name', 'Late Night Squad'));
+      console.log("added role");
   }
   else {
     console.log("no sir!");
