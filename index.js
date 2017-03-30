@@ -9,14 +9,14 @@ var unsetRule = new schedule.RecurrenceRule();
 var currentGuild;
 setrule.hour = 1;
 unsetRule.hour = 8;
-var canBecome = false;
+var canBecome = true;
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
 
 var voiceChannels;
 var members = [];
 client.on('ready', () => {
-
+  console.log(new Date());
   console.log(`Logged in as ${client.user.username}!`);
 
   voiceChannels = client.channels.filter(g => {
