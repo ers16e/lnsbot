@@ -5,18 +5,21 @@ var port = process.env.PORT || 8080;
 const Discord = require("discord.js");
 const client = new Discord.Client();
 var schedule = require('node-schedule');
-var setrule = new schedule.RecurrenceRule();
+var setRule = new schedule.RecurrenceRule();
+var pictureRule = new schedule.RecurrenceRule();
 var unsetRule = new schedule.RecurrenceRule();
 var currentGuild;
-setrule.hour = 5;
-setrule.minute = 1;
+setRule.hour = 5;
 unsetRule.hour = 12;
 unsetRule.minute = 1;
+pictureRule.hour = 5;
+pictureRule.minute = 0;
 var canBecome = true;
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
 
 var voiceChannels;
+var lateNightSquadChannel;
 var members = [];
 client.on('ready', () => {
   console.log(new Date());
@@ -26,9 +29,13 @@ client.on('ready', () => {
     return g.type == 'voice';
   });
 
-  var setLate = schedule.scheduleJob(setrule, function() {
+  lateNightSquadChannel = client.channels.filter(g => {
+    return g.type == 'text' && g.name == 'late_night_squad';
+  }).first();
+
+  var setLate = schedule.scheduleJob(setRule, function() {
     canBecome = true;
-    console.log("whats good");
+    console.log("Time to begin late night squad for the day");
     for(var channel of voiceChannels.values())
     {
       for(var member of channel.members.values())
@@ -40,7 +47,7 @@ client.on('ready', () => {
 
   var unsetLate = schedule.scheduleJob(unsetRule, function() {
     canBecome = false;
-    console.log("Not much");
+    console.log("Time to end late night squad for the day");
     var guilds = client.guilds;
     for(var guild of guilds.values())
     {
@@ -52,17 +59,28 @@ client.on('ready', () => {
     }
 
   });
+
+  var postPicture = schedule.scheduleJob(pictureRule, function() {
+      lateNightSquadChannel.sendFile("https://cdn.discordapp.com/attachments/296658163334381568/296871309130989568/unknown.png");
+  })
+
 });
 
 
 client.on('message', msg => {
   if(canBecome)
   {
-      msg.member.addRole(msg.member.guild.roles.find('name', 'Late Night Squad'));
-      console.log("added role");
+      if(!(msg.member.roles.find('name', 'Late Night Squad')))
+      {
+        msg.member.addRole(msg.member.guild.roles.find('name', 'Late Night Squad'));
+        console.log("added role");
+      }
+      else{
+        console.log("This user already has late night squad role");
+      }
   }
   else {
-    console.log("no sir!");
+    console.log("It's not late enough for this");
   }
 });
 
