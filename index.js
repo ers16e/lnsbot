@@ -1,3 +1,6 @@
+var express = require('express');
+var app = express();
+var port = process.env.PORT || 8080;
 const Discord = require("discord.js");
 const client = new Discord.Client();
 var schedule = require('node-schedule');
@@ -60,3 +63,7 @@ client.on('message', msg => {
 });
 
 client.login(token);
+
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});
