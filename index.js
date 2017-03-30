@@ -1,3 +1,4 @@
+require('newrelic');
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 8080;
@@ -8,7 +9,9 @@ var setrule = new schedule.RecurrenceRule();
 var unsetRule = new schedule.RecurrenceRule();
 var currentGuild;
 setrule.hour = 5;
+setrule.minute = 1;
 unsetRule.hour = 12;
+unsetRule.minute = 1;
 var canBecome = true;
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
@@ -65,5 +68,5 @@ client.on('message', msg => {
 client.login(token);
 
 app.listen(port, function() {
-    console.log('Our app is running on http://localhost:' + port);
+    console.log('Our app is running on port:' + port);
 });
