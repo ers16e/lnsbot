@@ -1,5 +1,7 @@
+process.env.TZ = "America/Montreal";
 require('newrelic');
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 var port = process.env.PORT || 8080;
 const Discord = require("discord.js");
@@ -15,6 +17,7 @@ unsetRule.minute = 1;
 pictureRule.hour = 5;
 pictureRule.minute = 0;
 var canBecome = true;
+app.use(bodyParser.urlencoded({extended: true}));
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
 
@@ -85,6 +88,18 @@ client.on('message', msg => {
 });
 
 client.login(token);
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/form.html');
+})
+
+app.post('/', function(req, res) {
+  setRule.hour = req.body.starthour;
+  unsetRule.hour = req.body.endhour;
+  console.log("New Start Hour: " + setRule.hour);
+  console.log("New End Hour: " + unsetRule.hour);
+  res.sendFile(__dirname + '/submitted.html');
+})
 
 app.listen(port, function() {
     console.log('Our app is running on port:' + port);
