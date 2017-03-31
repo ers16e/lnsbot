@@ -11,11 +11,11 @@ var setRule = new schedule.RecurrenceRule();
 var pictureRule = new schedule.RecurrenceRule();
 var unsetRule = new schedule.RecurrenceRule();
 var currentGuild;
-setRule.hour = 5;
-unsetRule.hour = 12;
+setRule.hour = 1;
+unsetRule.hour = 8;
 unsetRule.minute = 1;
-pictureRule.hour = 5;
-pictureRule.minute = 0;
+pictureRule.hour = 1;
+pictureRule.minute = 5;
 var canBecome = true;
 app.use(bodyParser.urlencoded({extended: true}));
 
