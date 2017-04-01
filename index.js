@@ -17,7 +17,8 @@ unsetRule.minute = 1;
 pictureRule.hour = 1;
 pictureRule.minute = 0;
 pictureRule.second = 0;
-var canBecome = true;
+var canBecome = false;
+var audioFileURL = 'https://youtu.be/NRdq439C7JM';
 app.use(bodyParser.urlencoded({extended: true}));
 
 const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
@@ -86,21 +87,36 @@ client.on('message', msg => {
   else {
     console.log("It's not late enough for this");
   }
+
+
+  if(msg.content == "play")
+  {
+    var highestSize = 0;
+    var highestVoiceChannel = voiceChannels.first();
+    for(var channel of voiceChannels.values())
+    {
+      if(channel.members.size > highestSize)
+      {
+        highestVoiceChannel = channel;
+        highestSize = channel.members.size;
+      }
+    }
+    console.log(highestSize);
+
+    // play streams using ytdl-core
+    const ytdl = require('ytdl-core');
+    const streamOptions = { seek: 0, volume: 1 };
+    highestVoiceChannel.join()
+    .then(connection => {
+      const stream = ytdl(audioFileURL, {filter : 'audioonly'});
+      const dispatcher = connection.playStream(stream, streamOptions);
+    })
+    .catch(console.error);
+  }
+
 });
 
 client.login(token);
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/form.html');
-})
-
-app.post('/', function(req, res) {
-  setRule.hour = req.body.starthour;
-  unsetRule.hour = req.body.endhour;
-  console.log("New Start Hour: " + setRule.hour);
-  console.log("New End Hour: " + unsetRule.hour);
-  res.sendFile(__dirname + '/submitted.html');
-})
 
 app.listen(port, function() {
     console.log('Our app is running on port:' + port);
