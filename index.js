@@ -16,6 +16,7 @@ unsetRule.hour = 8;
 unsetRule.minute = 1;
 pictureRule.hour = 1;
 pictureRule.minute = 0;
+pictureRule.second = 0;
 var canBecome = true;
 app.use(bodyParser.urlencoded({extended: true}));
 
