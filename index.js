@@ -110,9 +110,9 @@ client.on('message', msg => {
     .then(connection => {
       const stream = ytdl(audioFileURL, {filter : 'audioonly'});
       const dispatcher = connection.playStream(stream, streamOptions);
+      connection.disconnect();
     })
     .catch(console.error);
-    highestVoiceChannel.leave();
   }
 
 });
