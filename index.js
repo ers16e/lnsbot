@@ -67,7 +67,31 @@ client.on('ready', () => {
 
   var postPicture = schedule.scheduleJob(pictureRule, function() {
       lateNightSquadChannel.sendFile("https://cdn.discordapp.com/attachments/296658163334381568/296871309130989568/unknown.png");
-  })
+      var highestSize = 0;
+      var highestVoiceChannel = voiceChannels.first();
+      for(var channel of voiceChannels.values())
+      {
+        if(channel.members.size > highestSize)
+        {
+          highestVoiceChannel = channel;
+          highestSize = channel.members.size;
+        }
+      }
+      console.log(highestSize);
+
+      // play streams using ytdl-core
+      const ytdl = require('ytdl-core');
+      const streamOptions = { seek: 0, volume: 1 };
+      highestVoiceChannel.join()
+      .then(connection => {
+        const stream = ytdl(audioFileURL, {filter : 'audioonly'});
+        const dispatcher = connection.playStream(stream, streamOptions);
+        dispatcher.once('end', () => {
+          connection.disconnect();
+        });
+      })
+      .catch(console.error);
+  });
 
 });
 
@@ -86,35 +110,6 @@ client.on('message', msg => {
   }
   else {
     console.log("It's not late enough for this");
-  }
-
-
-  if(msg.content == "play")
-  {
-    var highestSize = 0;
-    var highestVoiceChannel = voiceChannels.first();
-    for(var channel of voiceChannels.values())
-    {
-      if(channel.members.size > highestSize)
-      {
-        highestVoiceChannel = channel;
-        highestSize = channel.members.size;
-      }
-    }
-    console.log(highestSize);
-
-    // play streams using ytdl-core
-    const ytdl = require('ytdl-core');
-    const streamOptions = { seek: 0, volume: 1 };
-    highestVoiceChannel.join()
-    .then(connection => {
-      const stream = ytdl(audioFileURL, {filter : 'audioonly'});
-      const dispatcher = connection.playStream(stream, streamOptions);
-      dispatcher.once('end', () => {
-        connection.disconnect();
-      });
-    })
-    .catch(console.error);
   }
 
 });
