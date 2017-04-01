@@ -110,11 +110,9 @@ client.on('message', msg => {
     .then(connection => {
       const stream = ytdl(audioFileURL, {filter : 'audioonly'});
       const dispatcher = connection.playStream(stream, streamOptions);
-      while(connection.speaking)
-      {
-        
-      }
-      connection.disconnect();
+      dispatcher.once('end', () => {
+        connection.disconnect();
+      });
     })
     .catch(console.error);
   }
