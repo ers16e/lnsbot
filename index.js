@@ -112,6 +112,7 @@ client.on('message', msg => {
       const dispatcher = connection.playStream(stream, streamOptions);
     })
     .catch(console.error);
+    highestVoiceChannel.leave();
   }
 
 });
