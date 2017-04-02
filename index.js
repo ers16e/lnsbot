@@ -15,7 +15,7 @@ setRule.hour = 1;
 unsetRule.hour = 8;
 unsetRule.minute = 1;
 pictureRule.hour = 1;
-pictureRule.minute = 0;
+pictureRule.minute = 4;
 pictureRule.second = 0;
 var canBecome = false;
 var audioFileURL = 'https://youtu.be/NRdq439C7JM';
@@ -111,6 +111,7 @@ client.on('message', msg => {
   else {
     console.log("It's not late enough for this");
   }
+
 
 });
 
