@@ -12,7 +12,7 @@ var canBecome = false;
 var audioFileURL = 'https://youtu.be/NRdq439C7JM';
 app.use(bodyParser.urlencoded({extended: true}));
 
-const token = 'Mjk2ODM2NjgyMDIyMzg3NzEy.C74COA.cqZSGLxHBBy6S_aRPYI9hPucjsY';
+const token = <enter token>;
 
 var voiceChannels;
 var lateNightSquadChannel;
